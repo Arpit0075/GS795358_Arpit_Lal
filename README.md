@@ -4,7 +4,7 @@ This is a **Data Viewer App** built using **React**, **Material UI** for styling
 
 ## Live Demo
 
-You can check out the live version of the app [https://dataviewer12.netlify.app/](https://your-deployed-url.com).
+You can check out the live version of the app [https://dataviewer12.netlify.app/](https://dataviewer12.netlify.app/).
 
 ## How to Run Locally
 
