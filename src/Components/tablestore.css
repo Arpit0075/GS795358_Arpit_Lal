@@ -1,0 +1,25 @@
+.row-x {
+  cursor: grab;
+  /* background: gray; */
+}
+.row-x:active {
+  cursor: grabbing;
+}
+.dragging {
+  background: lightblue;
+}
+.drop-zone {
+  background: lightgreen;
+}
+
+.bubble {
+  animation: bu 0.3s linear infinite;
+}
+@keyframes bu {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: lightgreen;
+  }
+}

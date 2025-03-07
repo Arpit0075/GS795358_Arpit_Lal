@@ -33,6 +33,15 @@ export const storeSlice = createSlice({
   name: "storedetails",
   initialState,
   reducers: {
+    reorderElements: (
+      state,
+      action: PayloadAction<{ startIndex: number; endIndex: number }>
+    ) => {
+      let currItem = state[action.payload.startIndex];
+      state[action.payload.startIndex] = state[action.payload.endIndex];
+      state[action.payload.endIndex] = currItem;
+      return state;
+    },
     addToStore: (state, action: PayloadAction<storedetailsState>) => {
       state.push(action.payload);
     },
@@ -42,7 +51,7 @@ export const storeSlice = createSlice({
       });
     },
     updateStore: (state, action: PayloadAction<storedetailsState>) => {
-      console.log("inside slice,", action.payload);
+      //  console.log("inside slice,", action.payload);
 
       return state?.map((curr) => {
         if (curr.id == action.payload.id) {
@@ -54,6 +63,7 @@ export const storeSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addToStore, deleteFromStore, updateStore } = storeSlice.actions;
+export const { addToStore, deleteFromStore, updateStore, reorderElements } =
+  storeSlice.actions;
 
 export default storeSlice.reducer;

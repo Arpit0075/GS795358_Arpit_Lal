@@ -10,6 +10,7 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { Button, Tooltip } from "@mui/material";
 import {
   deleteFromStore,
+  reorderElements,
   storedetailsState,
   updateStore,
 } from "../store/storecomponentslice";
@@ -17,6 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import BasicModal from "./StoreModal";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import "./tablestore.css";
 
 type TablecompProps = {
   element: string;
@@ -53,9 +55,24 @@ export default function Tablecomp({ element, array }: TablecompProps) {
     });
   };
 
+  //working
+  const [startIndex, setStartIndex] = useState(-1);
+  const [swapIndex, setSwapIndex] = useState(-1);
+  const [dropIndex, setDropIndex] = useState(-1);
+
   const handleUpdate = () => {
     dispatch(updateStore(currentData));
     handleClose();
+  };
+
+  const reset = () => {
+    // console.log("resetting");
+
+    setStartIndex(-1);
+    setSwapIndex(-1);
+  };
+  const swapElements = (startIndex: number, endIndex: number) => {
+    dispatch(reorderElements({ startIndex, endIndex }));
   };
 
   return (
@@ -76,43 +93,80 @@ export default function Tablecomp({ element, array }: TablecompProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {array?.map((row: storedetailsState) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell sx={{ width: "5%" }}>
-                  <Tooltip title="Delete">
-                    <Button>
-                      <DeleteIcon onClick={() => handleDelete(row.id)} />
-                    </Button>
-                  </Tooltip>
-                </TableCell>
-                {element == "store" && (
+            {array?.map((row: storedetailsState, i) => {
+              let cls = "row-x";
+              if (i === startIndex) {
+                cls += " dragging";
+              }
+
+              if (i === swapIndex) {
+                cls += " drop-zone";
+              }
+
+              if (i === dropIndex) {
+                cls += " bubble";
+              }
+              return (
+                <TableRow
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
                   <TableCell sx={{ width: "5%" }}>
-                    <Button>
-                      <ShuffleIcon />
-                    </Button>
+                    <Tooltip title="Delete">
+                      <Button>
+                        <DeleteIcon onClick={() => handleDelete(row.id)} />
+                      </Button>
+                    </Tooltip>
                   </TableCell>
-                )}
-                <TableCell component="th">{row.SNo}</TableCell>
-                <TableCell>{row.Store}</TableCell>
-                <TableCell>{row.City}</TableCell>
-                <TableCell>{row.State}</TableCell>
-                <TableCell sx={{ width: "5%" }}>
-                  <Tooltip title="update">
-                    <Button>
-                      <EditIcon
-                        onClick={() => {
-                          setOpen(true);
-                          setCurrentdata(row);
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
+                  {element == "store" && (
+                    //working
+                    <TableCell
+                      className={cls}
+                      sx={{ width: "5%" }}
+                      draggable={true}
+                      onDragStart={() => setStartIndex(i)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        swapElements(startIndex, i);
+                        setDropIndex(i);
+                        setTimeout(() => {
+                          setDropIndex(-1);
+                        }, 1000);
+                        //
+                        reset();
+                      }}
+                      onDragEnd={reset}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        setSwapIndex(i);
+                      }}
+                    >
+                      <Tooltip title="drag to reorder">
+                        <Button>
+                          <ShuffleIcon />
+                        </Button>
+                      </Tooltip>
+                    </TableCell>
+                  )}
+                  <TableCell component="th">{row.SNo}</TableCell>
+                  <TableCell>{row.Store}</TableCell>
+                  <TableCell>{row.City}</TableCell>
+                  <TableCell>{row.State}</TableCell>
+                  <TableCell sx={{ width: "5%" }}>
+                    <Tooltip title="update">
+                      <Button>
+                        <EditIcon
+                          onClick={() => {
+                            setOpen(true);
+                            setCurrentdata(row);
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
