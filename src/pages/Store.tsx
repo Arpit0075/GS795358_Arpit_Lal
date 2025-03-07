@@ -5,7 +5,7 @@ import type { RootState } from "../store/store.ts";
 import { useDispatch, useSelector } from "react-redux";
 import BasicModal from "../Components/StoreModal.tsx";
 import { useState } from "react";
-import { addToStore } from "../store/storecomponentslice.ts";
+import { addToStore, storedetailsState } from "../store/storecomponentslice.ts";
 
 function Store() {
   const storedetail = useSelector((state: RootState) => state.storeReducer);
@@ -15,7 +15,7 @@ function Store() {
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [currentData, setCurrentdata] = useState<any>({
+  const [currentData, setCurrentdata] = useState<storedetailsState>({
     id: "",
     SNo: "",
     State: "",
@@ -23,10 +23,12 @@ function Store() {
     Store: "",
   });
 
-  const handleCurrentData = (e: { target: { name: any; value: any } }) => {
+  const handleCurrentData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let { name, value } = e.target;
 
-    setCurrentdata((prev: any) => {
+    setCurrentdata((prev: storedetailsState) => {
       return { ...prev, [name]: value };
     });
   };

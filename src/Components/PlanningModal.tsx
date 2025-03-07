@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { TextField, Typography } from "@mui/material";
+import { updaPlanningteData } from "./Tableplanning";
 
 const style = {
   position: "absolute",
@@ -24,9 +25,11 @@ export default function PlanningModal({
 }: {
   open: boolean;
   handleClose: () => void;
-  currentData: any;
-  handleCurrentData: any;
-  handleUpdate: any;
+  currentData: updaPlanningteData;
+  handleCurrentData: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleUpdate: () => void;
 }) {
   // If currentData is not available, don't render the form
   if (!currentData) return null;
@@ -49,12 +52,15 @@ export default function PlanningModal({
             <Typography>Week-{currentData.week}</Typography>
             <Typography>SKU-{currentData.sku}</Typography>
             <TextField
+              type="number"
               id="outlined-basic"
               label="Units Sold"
               variant={"outlined"}
               value={currentData.unit}
               name="unit"
-              onChange={(e) => handleCurrentData(e)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleCurrentData(e)}
             />
           </Box>
           <Button onClick={handleUpdate}>Update</Button>

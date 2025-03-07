@@ -8,7 +8,11 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { Button, Tooltip } from "@mui/material";
-import { deleteFromStore, updateStore } from "../store/storecomponentslice";
+import {
+  deleteFromStore,
+  storedetailsState,
+  updateStore,
+} from "../store/storecomponentslice";
 import EditIcon from "@mui/icons-material/Edit";
 import BasicModal from "./StoreModal";
 import { useState } from "react";
@@ -16,37 +20,41 @@ import { useDispatch } from "react-redux";
 
 type TablecompProps = {
   element: string;
-  array?: any; // Optional prop
+  array?: storedetailsState[];
 };
 
 export default function Tablecomp({ element, array }: TablecompProps) {
   const dispatch = useDispatch();
 
-  const handleDelete = (serial: number) => {
+  const handleDelete = (serial: number | string) => {
     dispatch(deleteFromStore(serial));
   };
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [currentData, setCurrentdata] = useState<any>(null);
+  const [currentData, setCurrentdata] = useState<storedetailsState>({
+    id: "",
+    SNo: "",
+    State: "",
+    City: "",
+    Store: "",
+  });
 
-  const handleCurrentData = (e: { target: { name: any; value: any } }) => {
+  const handleCurrentData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let { name, value } = e.target;
     console.log(name, value);
 
     // setCurrentdata({ [name]: value });
 
-    setCurrentdata((prev: any) => {
+    setCurrentdata((prev: storedetailsState) => {
       return { ...prev, [name]: value };
     });
   };
 
   const handleUpdate = () => {
-    // console.log(currentData);
-
-    // return;
-
-    dispatch(updateStore(currentData)); // Directly dispatch the currentData from props
+    dispatch(updateStore(currentData));
     handleClose();
   };
 
@@ -68,7 +76,7 @@ export default function Tablecomp({ element, array }: TablecompProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {array?.map((row: any) => (
+            {array?.map((row: storedetailsState) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

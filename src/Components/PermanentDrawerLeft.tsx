@@ -28,64 +28,61 @@ const drawerWidth = 240;
 
 export default function PermanentDrawerLeft() {
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <Drawer
-          sx={{
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          variant="permanent"
-          anchor="left"
+            boxSizing: "border-box",
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <img
+          src={GsynergyLogo}
+          alt="Gsynergy-logo"
+          style={{ height: "150px", width: "150px" }}
+        />
+        <Divider />
+        <Divider />
+        <List>
+          {sideBarArray.map((el) => (
+            <ListItem key={el.name} disablePadding>
+              <NavLink
+                to={el.link!!}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <ListItemButton>
+                  <ListItemIcon>{<el.icon />}</ListItemIcon>
+                  <ListItemText primary={el.name} />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Box
+        sx={{
+          flexGrow: 1, // Take up the remaining space
+          paddingLeft: "1rem",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Typography
+          sx={{ paddingTop: "2rem", fontSize: "2rem", textAlign: "center" }}
         >
-          <img
-            src={GsynergyLogo}
-            alt="Gsynergy-logo"
-            style={{ height: "150px", width: "150px" }}
-          />
-          <Divider />
-          <Divider />
-          <List>
-            {sideBarArray.map((el) => (
-              <ListItem key={el.name} disablePadding>
-                <NavLink
-                  to={el.link!!}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>{<el.icon />}</ListItemIcon>
-                    <ListItemText primary={el.name} />
-                  </ListItemButton>
-                </NavLink>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+          Data Views here
+        </Typography>
 
-        <Box
-          sx={{
-            flexGrow: 1, // Take up the remaining space
-            paddingLeft: "1rem",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Typography
-            sx={{ paddingTop: "2rem", fontSize: "2rem", textAlign: "center" }}
-          >
-            Data Views here
-          </Typography>
-
-          <Box>
-            <Outlet />
-          </Box>
+        <Box>
+          <Outlet />
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }

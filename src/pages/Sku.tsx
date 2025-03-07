@@ -4,27 +4,29 @@ import type { RootState } from "../store/store.ts";
 import SkuModal from "../Components/SkuModal.tsx";
 import { Button } from "@mui/material";
 import { useState } from "react";
-import { addToStore } from "../store/skuslice.ts";
+import { addToStore, skuSliceState } from "../store/skuslice.ts";
 
 function Sku() {
-  const storedetail = useSelector((state: RootState) => state.skuReducer);
-  console.log(storedetail);
+  const skudetail = useSelector((state: RootState) => state.skuReducer);
+  console.log(skudetail);
 
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [currentData, setCurrentdata] = useState<any>({
+  const [currentData, setCurrentdata] = useState<skuSliceState>({
     id: "",
     sku: "",
     price: "",
     cost: "",
   });
 
-  const handleCurrentData = (e: { target: { name: any; value: any } }) => {
+  const handleCurrentData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let { name, value } = e.target;
     console.log(name, value);
-    setCurrentdata((prev: any) => {
+    setCurrentdata((prev: skuSliceState) => {
       return { ...prev, [name]: value };
     });
   };
@@ -42,7 +44,7 @@ function Sku() {
   };
   return (
     <div>
-      <TableSku array={storedetail} />
+      <TableSku array={skudetail} />
       <Button onClick={() => setOpen(true)}>Add</Button>
       <SkuModal
         action={"create"}

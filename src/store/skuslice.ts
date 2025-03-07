@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface skuSliceState {
+export type skuSliceState = {
   sku: string;
-  price: number;
-  cost: number;
-  id: any;
-}
+  price: number | "";
+  cost: number | "";
+  id: number | string;
+};
 
 const initialState: skuSliceState[] = [
   { sku: "shirt", price: 500, cost: 340, id: "sku-1" },
@@ -23,7 +23,7 @@ export const skuSlice = createSlice({
     addToStore: (state, action: PayloadAction<skuSliceState>) => {
       state.push(action.payload);
     },
-    deleteFromStore: (state, action: PayloadAction<string>) => {
+    deleteFromStore: (state, action: PayloadAction<string | number>) => {
       return state.filter((curr) => {
         return curr.id !== action.payload;
       });
@@ -40,7 +40,6 @@ export const skuSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { addToStore, deleteFromStore, updateStore } = skuSlice.actions;
 
 export default skuSlice.reducer;

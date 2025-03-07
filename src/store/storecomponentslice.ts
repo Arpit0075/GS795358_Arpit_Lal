@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface storedetailsState {
-  SNo: number;
+export type storedetailsState = {
+  SNo: string | number;
   Store: string;
   City: string;
   State: string;
-  id: any;
-}
+  id: string | number;
+};
 
 const initialState: storedetailsState[] = [
   {
@@ -36,7 +36,7 @@ export const storeSlice = createSlice({
     addToStore: (state, action: PayloadAction<storedetailsState>) => {
       state.push(action.payload);
     },
-    deleteFromStore: (state, action: PayloadAction<number>) => {
+    deleteFromStore: (state, action: PayloadAction<number | string>) => {
       return state.filter((curr) => {
         return curr.id !== action.payload;
       });

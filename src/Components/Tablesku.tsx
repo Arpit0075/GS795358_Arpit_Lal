@@ -7,40 +7,47 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Tooltip } from "@mui/material";
-import { deleteFromStore, updateStore } from "../store/skuslice";
+import { deleteFromStore, skuSliceState, updateStore } from "../store/skuslice";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import SkuModal from "./SkuModal";
 
 type TableskuProps = {
-  array?: any; // Optional prop
+  array?: skuSliceState[];
 };
 
 export default function TableSku({ array }: TableskuProps) {
   const dispatch = useDispatch();
 
-  const handleDelete = (serial: string) => {
+  const handleDelete = (serial: string | number) => {
     dispatch(deleteFromStore(serial));
   };
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [currentData, setCurrentdata] = useState<any>(null);
+  const [currentData, setCurrentdata] = useState<skuSliceState>({
+    id: "",
+    sku: "",
+    price: "",
+    cost: "",
+  });
 
-  const handleCurrentData = (e: { target: { name: any; value: any } }) => {
+  const handleCurrentData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let { name, value } = e.target;
     console.log(name, value);
 
     // setCurrentdata({ [name]: value });
 
-    setCurrentdata((prev: any) => {
+    setCurrentdata((prev: skuSliceState) => {
       return { ...prev, [name]: value };
     });
   };
 
   const handleUpdate = () => {
-    dispatch(updateStore(currentData)); // Directly dispatch the currentData from props
+    dispatch(updateStore(currentData));
     handleClose();
   };
 
@@ -58,7 +65,7 @@ export default function TableSku({ array }: TableskuProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {array?.map((row: any) => (
+            {array?.map((row: skuSliceState) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

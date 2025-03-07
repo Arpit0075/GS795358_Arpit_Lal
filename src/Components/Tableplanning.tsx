@@ -8,11 +8,22 @@ import Paper from "@mui/material/Paper";
 import PlanningModal from "./PlanningModal";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { updateSalesunit } from "../store/planningslice";
+import {
+  PlanningSliceState,
+  SalesResult,
+  updateSalesunit,
+} from "../store/planningslice";
 import { Button } from "@mui/material";
 
 type TableskuProps = {
-  array?: any; // Optional prop
+  array?: PlanningSliceState[];
+};
+
+export type updaPlanningteData = {
+  unit: number | "";
+  week: number | "";
+  store: string;
+  sku: string;
 };
 
 export default function TablePlanning({ array }: TableskuProps) {
@@ -20,19 +31,31 @@ export default function TablePlanning({ array }: TableskuProps) {
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const [currentData, setCurrentdata] = useState<any>(null);
 
-  const handleCurrentData = (e: { target: { name: any; value: any } }) => {
+  const [currentData, setCurrentdata] = useState<updaPlanningteData>({
+    unit: "",
+    week: "",
+    store: "",
+    sku: "",
+  });
+
+  const handleCurrentData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let { name, value } = e.target;
-    //    console.log(name, value);
-
-    setCurrentdata((prev: any) => {
-      return { ...prev, [name]: value };
+    let num = 0;
+    if (name == "unit") {
+      num = +value;
+    }
+    setCurrentdata((prev: updaPlanningteData) => {
+      return { ...prev, [name]: num };
     });
   };
 
+  //console.log(currentData);
+
   const handleUpdate = () => {
-    dispatch(updateSalesunit(currentData)); // Directly dispatch the currentData from props
+    dispatch(updateSalesunit(currentData));
     handleClose();
   };
 
@@ -58,7 +81,7 @@ export default function TablePlanning({ array }: TableskuProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {array?.map((row: any, i: number) => {
+            {array?.map((row: PlanningSliceState, i: number) => {
               // console.log(row.sales);
 
               return (
@@ -68,7 +91,7 @@ export default function TablePlanning({ array }: TableskuProps) {
                 >
                   <TableCell component="th">{row.store}</TableCell>
                   <TableCell>{row.sku}</TableCell>
-                  {row.sales?.map((el: any) => {
+                  {row.sales?.map((el: SalesResult) => {
                     return (
                       <Table>
                         <TableHead>
@@ -110,15 +133,9 @@ export default function TablePlanning({ array }: TableskuProps) {
                           <TableCell>${el.salesDollars}</TableCell>
                           <TableCell>${el.GM_Dollars}</TableCell>
                           <TableCell
-                            //working
                             style={{
                               background: applyBackground(el.GM_percentage),
                             }}
-
-                            // style={{
-                            //   background: "red",
-                            // }}
-                            // sx={{background: ()=>applyBackground(el.GM_percentage)}}
                           >
                             {el.GM_percentage}%
                           </TableCell>

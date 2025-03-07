@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
+import { skuSliceState } from "../store/skuslice";
 
 const style = {
   position: "absolute",
@@ -25,9 +26,11 @@ export default function SkuModal({
 }: {
   open: boolean;
   handleClose: () => void;
-  currentData: any;
-  handleCurrentData: any;
-  handleUpdate: any;
+  currentData: skuSliceState;
+  handleCurrentData: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleUpdate: () => void;
   action: string;
 }) {
   if (!currentData) return null;
@@ -47,19 +50,6 @@ export default function SkuModal({
             noValidate
             autoComplete="off"
           >
-            {/* Directly using currentData to control the form fields */}
-
-            {/* {action === "create" && (
-              <TextField
-                id="outlined-basic"
-                label="id"
-                variant={"filled"}
-                defaultValue={+Date.now()} // Controlled component, directly from props
-                name="id"
-                disabled
-                // onChange={(e) => handleCurrentData(e)}
-              />
-            )} */}
             {action === "update" && (
               <TextField
                 id="outlined-basic"
@@ -76,7 +66,7 @@ export default function SkuModal({
               id="outlined-basic"
               label="SKU"
               variant={"outlined"}
-              value={currentData.sku} // Controlled component, directly from props
+              value={currentData.sku}
               name="sku"
               onChange={(e) => handleCurrentData(e)}
             />
@@ -84,17 +74,17 @@ export default function SkuModal({
               id="standard-helperText"
               label="Price"
               variant="outlined"
-              value={currentData.price} // Controlled component, directly from props
+              value={currentData.price}
               name="price"
-              onChange={(e) => handleCurrentData(e)} // Update currentData directly
+              onChange={(e) => handleCurrentData(e)} // Update currentData
             />
             <TextField
               id="filled-basic"
               label="Cost"
               variant="outlined"
-              value={currentData.cost} // Controlled component, directly from props
+              value={currentData.cost}
               name="cost"
-              onChange={(e) => handleCurrentData(e)} // Update currentData directly
+              onChange={(e) => handleCurrentData(e)}
             />
           </Box>
           <Button onClick={handleUpdate}>Update</Button>
