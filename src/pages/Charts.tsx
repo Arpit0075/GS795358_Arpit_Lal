@@ -3,12 +3,12 @@ import type { AppDispatch, RootState } from "../store/store.ts";
 import BasicSelect from "../Components/SelectComponent";
 import { SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import Barchart from "../Components/Barchart";
 import {
   fetchInitialState,
   PlanningSliceState,
   SalesResult,
 } from "../store/planningslice";
+import Barchart1 from "../Components/Barchart1.tsx";
 
 export type SalesRevenue = {
   GM_DollarsSales: number;
@@ -82,7 +82,7 @@ function Charts() {
       />
 
       <div style={{ maxHeight: "550px" }}>
-        <Barchart dataObject={salesRevenues} selectedStore={selectedStore} />
+        <Barchart1 dataObject={salesRevenues} />
       </div>
     </div>
   );
