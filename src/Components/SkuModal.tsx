@@ -63,6 +63,7 @@ export default function SkuModal({
             )}
 
             <TextField
+              type="text"
               id="outlined-basic"
               label="SKU"
               variant={"outlined"}
@@ -71,6 +72,7 @@ export default function SkuModal({
               onChange={(e) => handleCurrentData(e)}
             />
             <TextField
+              type="number"
               id="standard-helperText"
               label="Price"
               variant="outlined"
@@ -79,6 +81,7 @@ export default function SkuModal({
               onChange={(e) => handleCurrentData(e)} // Update currentData
             />
             <TextField
+              type="number"
               id="filled-basic"
               label="Cost"
               variant="outlined"

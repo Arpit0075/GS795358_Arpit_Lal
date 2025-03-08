@@ -64,6 +64,7 @@ export default function BasicModal({
 
             <TextField
               id="outlined-basic"
+              type="number"
               label="S.No"
               variant={action == "create" ? "outlined" : "filled"}
               value={currentData.SNo}
@@ -72,6 +73,7 @@ export default function BasicModal({
               onChange={(e) => handleCurrentData(e)}
             />
             <TextField
+              type="text"
               id="standard-helperText"
               label="Store"
               variant="outlined"
@@ -80,6 +82,7 @@ export default function BasicModal({
               onChange={(e) => handleCurrentData(e)}
             />
             <TextField
+              type="text"
               id="filled-basic"
               label="City"
               variant="outlined"
@@ -88,6 +91,7 @@ export default function BasicModal({
               onChange={(e) => handleCurrentData(e)}
             />
             <TextField
+              type="text"
               id="standard-basic"
               label="State"
               variant="outlined"
