@@ -58,10 +58,10 @@ const options = {
       },
       beginAtZero: true,
     },
-  },
+  } as any,
 };
 
-export default function Barchart1({
+export default function Barchart({
   dataObject,
 }: {
   dataObject: SalesRevenue[];

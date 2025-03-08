@@ -8,7 +8,7 @@ import {
   PlanningSliceState,
   SalesResult,
 } from "../store/planningslice";
-import Barchart1 from "../Components/Barchart1.tsx";
+import Barchart from "../Components/Barchart.tsx";
 
 export type SalesRevenue = {
   GM_DollarsSales: number;
@@ -82,7 +82,7 @@ function Charts() {
       />
 
       <div style={{ maxHeight: "550px" }}>
-        <Barchart1 dataObject={salesRevenues} />
+        <Barchart dataObject={salesRevenues} />
       </div>
     </div>
   );
